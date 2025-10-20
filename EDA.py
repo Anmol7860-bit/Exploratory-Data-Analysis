@@ -18,9 +18,13 @@ print(a.nunique())
 print(a.drop_duplicates())
 print(a.describe(include='all'))
 #info function to get the information about the data types and non null values
-print(a.info())
+#print(a.info())
 print(a.rename(columns={'species':'Species','island':'Island'}))
 BMI_unique=a.body_mass_g.unique()
-print(BMI_unique)
+#print(BMI_unique)
 
 #dealing with missing values
+#replacing with NaN
+a=a.replace('\.+-',np.nan,regex=True)
+print(a.isnull().sum())
+print(a.head())
