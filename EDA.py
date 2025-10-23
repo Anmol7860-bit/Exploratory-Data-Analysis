@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns 
 import warnings
 warnings.filterwarnings("ignore")
-penguin=pd.read_csv('penguins.csv')
+penguin=pd.read_csv('penguins_iter.csv')
 print(penguin.head())
 print(penguin.shape)
 #delete the nan values/columns which are not required 
@@ -20,11 +20,15 @@ print(a.describe(include='all'))
 #info function to get the information about the data types and non null values
 #print(a.info())
 print(a.rename(columns={'species':'Species','island':'Island'}))
-BMI_unique=a.body_mass_g.unique()
+#BMI_unique=a.body_mass_g.unique()
 #print(BMI_unique)
 
 #dealing with missing values
-#replacing with NaN
-a=a.replace('\.+-',np.nan,regex=True)
+#replacing with NaN if there is any '\.+-" such values 
+print(a.replace('\.+-' ,np.nan,regex=True))
+
 print(a.isnull().sum())
 print(a.head())
+#reviewing each coloumn datatype
+print(a.info())
+
