@@ -45,3 +45,27 @@ print(penguin.describe(include='all'))
 print(penguin['Body_Mass(g)']==0)
 
 #lets plot this data for a wider picture
+sns.histplot(data=penguin['Body_Mass(g)'],kde=True)
+plt.axvline(x=penguin['Body_Mass(g)'].mean(),color='red',alpha=0.5,label='Mean')
+plt.axvline(x=penguin['Body_Mass(g)'].median(),c='blue',ls='--',alpha=0.5,label='Median')
+plt.legend()
+#print(plt.show())
+
+#the picture shows the mean median values and data plotted as histogram
+#if the body mass column contains the values 0 then convert it into nan because body mass of any object cannot be zero
+penguin['Body_Mass(g)'] = penguin['Body_Mass(g)'].replace(0, np.nan)#there are no o values
+print(penguin['Body_Mass(g)'])
+
+#Analysing the amount of missing values
+penguin_missing=penguin.isnull()
+print(penguin_missing) #no missing value found
+
+#total missing values in each coloumn
+print(penguin.isnull().sum())
+
+#percentage of missing values in each coloumn
+print(penguin.isnull().mean()*100)
+
+#visualising the missing data using missingno library
+import missingno as msno
+print(msno.bar(penguin))
