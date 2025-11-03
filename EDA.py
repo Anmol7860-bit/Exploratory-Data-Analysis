@@ -69,3 +69,17 @@ print(penguin.isnull().mean()*100)
 #visualising the missing data using missingno library
 import missingno as msno
 print(msno.bar(penguin))
+
+#missing values will be always be blank spaces in the matrix plot
+print(msno.matrix(penguin))# helps in time series data set
+
+#correlation between coloumns with missing values
+print(msno.heatmap(penguin)) 
+
+#pairwise deletion= we only delete the missing values in the analysis we are performing
+#listwise deletion= we delete the entire row/coloumn if there is any missing value in it
+
+#Creating a dummy variables
+
+##converting males to 0 and females to 1 
+penguin['Sex']=penguin.Sex.map({'male':0,'female':1})
