@@ -113,3 +113,7 @@ mode_imputer=SimpleImputer(strategy='mode')
 penguin_mode.iloc[:, :]=mode_imputer.fit_transform(penguin_mode)
 
 #constant imputation
+penguin_constant=penguin.copy(deep=True)
+constant_imputer=SimpleImputer(strategy='constant',fill_value=0)
+penguin_constant.iloc[:, :]=constant_imputer.fit_transform(penguin_constant)
+
