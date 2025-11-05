@@ -3,12 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import seaborn as sns 
 import warnings
+
+import sklearn
 warnings.filterwarnings("ignore")
 penguin=pd.read_csv('penguins_lter.csv')
 print(penguin.head())
 print(penguin.shape)
 #delete the nan rows/columns which are not required which is done inplace
-print(penguin.dropna(inplace=True))
+#print(penguin.dropna(inplace=True))
 #coloumns which are not important to your case study drop it 
 penguin=penguin.drop(['studyName','Stage','Region','Individual ID','Date Egg','Delta 15 N (o/oo)','Delta 13 C (o/oo)','Comments'],axis=1)
 print(penguin)
@@ -94,26 +96,64 @@ penguin['Species']=penguin.Species.map({'Adelie':0,'Chinstrap':1,'Gentoo':2})
 penguin['Island']=penguin.Island.map({'Biscoe':0,'Dream':1,'Torgersen':2})
 
 print(penguin.head())
+penguin = penguin.drop('Sex', axis=1,)# error occured  naming coloumn must be same length as key had to remove two coloumns
+penguin = penguin.drop('Species', axis=1)
 
-##Basic imputation techinques 
+##Basic imputation techniques 
 #Mean imputation 
 from sklearn.impute import SimpleImputer
-penguin_mean=penguin.copy(deep=True)#creating a copy
+penguin_mean=penguin.copy(deep=True) # creating a deep copy dataset
 mean_imputer=SimpleImputer(strategy='mean')
-penguin_mean.iloc[:, :]=mean_imputer.fit_transform(penguin.mean())
+penguin_mean.iloc[:, :]=mean_imputer.fit_transform(penguin_mean)
+print(penguin_mean.head())
 
-#Median imputation
-penguin_median=penguin.copy(deep=True)#creating a copy
-median_imputer=SimpleImputer(strategy='median')
-penguin_median.iloc[:, :]=median_imputer.fit_transform(penguin.median())
+#median imputation
+from sklearn.impute import SimpleImputer
+penguin_median = penguin.copy(deep=True)
+median_imputer = SimpleImputer(strategy='median')
+penguin_median.iloc[:, :] = median_imputer.fit_transform(penguin_median)
+print(penguin_median.head())
 
-#Mode imputation
-penguin_mode=penguin.copy(deep=True)
-mode_imputer=SimpleImputer(strategy='mode')
-penguin_mode.iloc[:, :]=mode_imputer.fit_transform(penguin_mode)
+#mode imputation
+from sklearn.impute import SimpleImputer
+penguin_mode = penguin.copy(deep=True)
+mode_imputer = SimpleImputer(strategy='most_frequent')
+penguin_mode.iloc[:, :] = mode_imputer.fit_transform(penguin_mode)
+print(penguin_mode.head())
 
 #constant imputation
-penguin_constant=penguin.copy(deep=True)
-constant_imputer=SimpleImputer(strategy='constant',fill_value=0)
-penguin_constant.iloc[:, :]=constant_imputer.fit_transform(penguin_constant)
+from sklearn.impute import SimpleImputer
+penguin_constant = penguin.copy(deep=True)
+constant_imputer = SimpleImputer(strategy='constant', fill_value=0)
+penguin_constant.iloc[:, :] = constant_imputer.fit_transform(penguin_constant)
+print(penguin_constant.head())
+
+#Advanced imputation techniques
+#KNN imputations 
+
+from fancyimpute import KNN
+knn_imputer=KNN()
+penguin_knn=penguin.copy(deep=True)
+penguin_knn.iloc[:, :]=knn_imputer.fit_transform(penguin_knn)
+print(penguin_knn.head())
+
+#multiple imputation by chained equations(MICE)
+#Uses multiple regression models to estimate missing values
+from fancyimpute import IterativeImputer
+MICE_imputer=IterativeImputer()
+penguin_MICE=penguin.copy(deep=True)
+penguin_MICE.iloc[:, :]=MICE_imputer.fit_transform(penguin_MICE)
+print(penguin_MICE.head())
+
+#how to know which techinque is the best one
+#visualizing imputations 
+fig,axes=plt.subplots(nrows=2,ncols=3,figsize=(10,10))
+nullity=penguin['Culmen Length (mm)'].isnull() + penguin['Culmen Depth (mm)'].isnull()
+imputations={'Mean':penguin_mean,'Median':penguin_median,'Mode':penguin_mode,'Constant':penguin_constant,'KNN':penguin_knn,'MICE':penguin_MICE}
+
+for ax,df_key in zip(axes.flatten(),imputations):
+    imputations[df_key].plot(x='Culmen Length (mm)',y='Culmen Depth (mm)',kind='scatter',
+                             alpha=0.5,c=nullity,cmap='rainbow',ax=ax,colorbar=False,title=df_key)
+    
+
 
