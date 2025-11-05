@@ -83,3 +83,33 @@ print(msno.heatmap(penguin))
 
 ##converting males to 0 and females to 1 
 penguin['Sex']=penguin.Sex.map({'male':0,'female':1})
+
+##converting clutch completion yes to 1 and no to 0
+penguin['Clutch_Completion']=penguin['Clutch_Completion'].map({'Yes':1,'No':0})
+
+##converting species Adelie=0 chinstrap=1 and gentoo=2
+penguin['Species']=penguin.Species.map({'Adelie':0,'Chinstrap':1,'Gentoo':2})
+
+##converting Island Biscoe=0 Dream=1 and Torgersen=2
+penguin['Island']=penguin.Island.map({'Biscoe':0,'Dream':1,'Torgersen':2})
+
+print(penguin.head())
+
+##Basic imputation techinques 
+#Mean imputation 
+from sklearn.impute import SimpleImputer
+penguin_mean=penguin.copy(deep=True)#creating a copy
+mean_imputer=SimpleImputer(strategy='mean')
+penguin_mean.iloc[:, :]=mean_imputer.fit_transform(penguin.mean())
+
+#Median imputation
+penguin_median=penguin.copy(deep=True)#creating a copy
+median_imputer=SimpleImputer(strategy='median')
+penguin_median.iloc[:, :]=median_imputer.fit_transform(penguin.median())
+
+#Mode imputation
+penguin_mode=penguin.copy(deep=True)
+mode_imputer=SimpleImputer(strategy='mode')
+penguin_mode.iloc[:, :]=mode_imputer.fit_transform(penguin_mode)
+
+#constant imputation
