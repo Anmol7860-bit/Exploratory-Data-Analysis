@@ -70,5 +70,4 @@ Thanks to the Palmer Penguins
  project for providing the dataset 
 
 Many public tutorials and blog posts on exploratory data analysis which served as inspiration
-
-Feel free to use, modify, and build on this project – contributions and feedback are welcome!
+Feel free to make changes and contributions to enhance this learning project!
