@@ -16,10 +16,10 @@ sns.histplot(data=diabetes['Age'],kde=True)
 plt.axvline(x=diabetes['Age'].mean(),color='red',alpha=0.5,label='Mean')
 plt.axvline(x=diabetes['Age'].median(),c='blue',ls='--',alpha=0.5,label='Median')
 plt.legend()
-#plt.show()
+plt.show()
 
 sns.boxplot(y=diabetes['Age'])
-#plt.show()
+plt.show()
 
 #Approaches can be used 
 #1.outlier replacement using computed mean 
