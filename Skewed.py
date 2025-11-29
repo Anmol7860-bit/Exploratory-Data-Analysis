@@ -40,3 +40,12 @@ plt.axvline(x=df['price_sqrt'].mean(),color='red',alpha=0.5,label='Mean')
 plt.axvline(x=df['price_sqrt'].median(),c='blue',ls='--',alpha=0.5,label='Median')
 plt.legend()
 print(plt.show())
+
+#3. power or box cox transformation
+#The Box-Cox transformation is a family of power transformations that are designed to stabilize variance and make the data more closely conform to a normal distribution.
+#A power transform is a family of functions applied to create a monotonic transformation of data using power functions 
+
+from scipy.stats import boxcox
+df.insert(len(df.columns),'A_boxcox',boxcox(df['price'])[0])
+sns.histplot(data=df['A_boxcox'],kde=True)
+print(plt.show())
