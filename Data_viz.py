@@ -32,5 +32,36 @@ plt.xlabel('Gdp per capita')
 plt.ylabel('Life Expectancy')
 plt.show()
 
+#we are converting gdp column into log scale
+sns.scatterplot(x='gdp',
+                y='life_exp',
+                data=gapminder_2007,)
+plt.xscale('log')
+plt.title('Life Expectancy vs GDP per Capita (Log Scale)')
+plt.xlabel('Gdp per capita (Log Scale)')
+plt.ylabel('Life Expectancy')
+plt.show()
 
+#Examining Numerical-Numerical data to see the trend 
+gapminder_India=gapminder[gapminder['country']=='India']
+plt.figure(figsize=(10,6))
+sns.lineplot(x='year',y='life_exp',data=gapminder_India)
+plt.show()
+
+#when we are seeing the trend we create line plot 
+#when we trying to see the relationship we create scatterplot
+
+#Examining Categorical-Categorical data
+data_url='https://bit.ly/3aYBbhQ'
+A_data=pd.read_csv(data_url)
+print(A_data.head())
+
+#how one variable is affecting the dependent variable 
+sns.countplot(x='Education',hue='Gender',data=A_data)
+plt.show()
+
+#Pairplot
+iris=sns.load_dataset('iris')
+g=sns.pairplot(iris,hue='species')
+plt.show()
 
