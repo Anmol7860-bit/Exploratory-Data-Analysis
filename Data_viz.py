@@ -65,3 +65,24 @@ iris=sns.load_dataset('iris')
 g=sns.pairplot(iris,hue='species')
 plt.show()
 
+#pearson correlation heat map
+#lower the value the lighter the color of the plot higher the value the darker thr color of the plot 
+#ligher color means low correlation darker color means high correlation
+KC=pd.read_csv('kc_house_data.csv')
+KC=KC.iloc[1:]#removing first row
+KC=KC.drop(['date'],axis=1)
+AAA=KC.corr(method='pearson')#finding correlation between different numerical variables pearson approach(parametric approach) should not be having outliers in the dataset
+plt.figure(figsize=(10,6))
+heatmap=sns.heatmap(AAA,annot=True)#annot=True means show the values in the heatmap
+plt.title('Correlation Heatmap')
+plt.show()
+
+#spearman correlation heatmap
+#not bound with parametric assumptions
+AAA.corr(method='spearman')#selecting the method as spearman
+plt.show()
+
+#Multicollinearity heatmap
+sns.heatmap(AAA.corr(method='spearman'),annot=True)
+plt.title('Multicollinearity Heatmap')
+plt.show()
