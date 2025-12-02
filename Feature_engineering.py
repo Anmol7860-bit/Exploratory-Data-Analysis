@@ -51,7 +51,24 @@ print(penguin[['Island','Island_Encoded']].head())
 print(le.classes_)
 #To decode back the numerical values to original categorical values
 decoded_island=le.inverse_transform(penguin['Island_Encoded'])
-print(decoded_island.head())
+print(decoded_island[:5])
 
 #Feature Scaling
-#is the step of data preprocessing that aims to standardize the range of independent variables or features of data
+#adjusting the range of features to a standard scale
+#Is the step of data preprocessing that aims to standardize the range of independent variables or features of data
+#Normalization (Min-Max Scaling) to normalize the data between 0 and 1 normalized_value=(x-min)/(max-min)
+#Normalization is on 0 and 1 scale and is heavily affected by outliers 
+from sklearn.preprocessing import MinMaxScaler
+scaler=MinMaxScaler()
+penguin[['Culmen Length (mm)','Culmen Depth (mm)']]=scaler.fit_transform(penguin[['Culmen Length (mm)','Culmen Depth (mm)']])
+print(penguin[['Culmen Length (mm)','Culmen Depth (mm)']].head())   
+
+
+#Standardization (Z-score Scaling) standardized_value=(x-mean)/std_dev
+#Standardization is not bounded to a specific range and is less affected by outliers
+#It centers the data around 0 with a standard deviation of 1
+from sklearn.preprocessing import StandardScaler
+std_scaler=StandardScaler()
+penguin[['Flipper Length (mm)','Body Mass (g)']]=std_scaler.fit_transform(penguin[['Flipper Length (mm)','Body Mass (g)']])
+print(penguin[['Flipper Length (mm)','Body Mass (g)']].head())
+
